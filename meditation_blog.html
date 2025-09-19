@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5-Minute Meditations</title>
+  <style>
+    :root {
+      --bg:#0e1014;          /* canvas background */
+      --card:#141823;        /* card surface */
+      --muted:#a7b3c4;       /* muted text */
+      --text:#e9f0ff;        /* primary text */
+      --brand:#6ee7f0;       /* cyan */
+      --brand-2:#9b8cff;     /* purple */
+      --good:#7ef29a;        /* green */
+      --warn:#ffd67e;        /* yellow */
+      --bad:#ff8c8c;         /* red */
+      --accent: linear-gradient(135deg, var(--brand), var(--brand-2));
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      background: var(--accent);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 0 0 var(--radius) var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    h2 {
+      color: var(--brand);
+    }
+    h1{
+        color: #fff;
+    }
+    p.muted {
+      color: var(--muted);
+      font-size: 0.95em;
+    }
+    .tip-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid var(--brand-2);
+      padding: 10px 15px;
+      margin: 15px 0;
+      border-radius: 10px;
+    }
+    ul li {
+      margin-bottom: 8px;
+    }
+    a.back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--brand);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a.back-link:hover {
+      text-decoration: underline;
+      color: var(--brand-2);
+    }
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: var(--radius);
+      margin-top: 15px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>5-Minute Meditations</h1>
+  </header>
+
+  <div class="container">
+    <p class="muted">Short, effective resets you can do between classes or meetings.</p>
+
+    <h2>Why 5-Minute Meditations Work</h2>
+    <p>Even a few minutes of mindful breathing or guided meditation can help calm your mind, lower stress levels, and improve focus. These quick practices are perfect for busy schedules where longer meditation sessions may feel overwhelming.</p>
+
+    <h2>Simple Techniques You Can Try</h2>
+    <div class="tip-box">
+      <strong>1. Box Breathing:</strong> Inhale for 4 counts, hold for 4, exhale for 4, hold for 4. Repeat for 5 minutes.
+    </div>
+    <div class="tip-box">
+      <strong>2. Body Scan:</strong> Gently bring awareness to each part of your body, starting from your toes up to your head. Notice sensations without judgment.
+    </div>
+    <div class="tip-box">
+      <strong>3. Visualization:</strong> Close your eyes and imagine a calming place — the beach, a forest, or anywhere peaceful. Spend 5 minutes immersed in the details of this space.
+    </div>
+
+    <h2>Benefits You’ll Notice</h2>
+    <ul>
+      <li>Reduced stress and tension</li>
+      <li>Improved concentration</li>
+      <li>Better emotional balance</li>
+      <li>Quick recharge for mental energy</li>
+    </ul>
+  </div>
+
+   <!-- Navigation Button -->
+<div class="card" style="text-align:center;">
+    <a class="btn" href="MindMapAI.html#blog">Go back to Blog →</a>
+  </div>
+</body>
+</html>

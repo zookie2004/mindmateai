@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Streaks & Motivation</title>
+  <style>
+    :root {
+      --bg:#0e1014;
+      --card:#141823;
+      --muted:#a7b3c4;
+      --text:#e9f0ff;
+      --brand:#6ee7f0;
+      --brand-2:#9b8cff;
+      --good:#7ef29a;
+      --warn:#ffd67e;
+      --bad:#ff8c8c;
+      --accent: linear-gradient(135deg, var(--brand), var(--brand-2));
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--accent);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 0 0 var(--radius) var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    h2 {
+      color: var(--brand);
+    }
+    h1{
+        color: #fff;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .streak-counter {
+      font-size: 3em;
+      font-weight: bold;
+      color: var(--good);
+      text-align: center;
+    }
+
+    .motivation-quote {
+      font-style: italic;
+      text-align: center;
+      margin: 15px 0;
+      color: var(--muted);
+    }
+
+    .progress-bar {
+      background: #2a2f3a;
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 15px 0;
+    }
+
+    .progress {
+      height: 20px;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.5s ease-in-out;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: var(--radius);
+      margin-top: 15px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Streaks & Motivation</h1>
+    <p>Stay consistent. Stay motivated. Build better habits one day at a time.</p>
+  </header>
+
+  <div class="container">
+    <!-- Streak Section -->
+    <div class="card">
+      <h2>Your Current Streak</h2>
+      <div class="streak-counter" id="streak">0 🔥</div>
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+      </div>
+      <button class="btn" onclick="logDay()">Mark Today as Complete</button>
+    </div>
+
+    <!-- Motivation Section -->
+    <div class="card">
+      <h2>Daily Motivation</h2>
+      <p class="motivation-quote" id="quote">“Small steps every day lead to big results.”</p>
+      <button class="btn" onclick="newQuote()">Get New Quote</button>
+    </div>
+  </div>
+
+   <!-- Navigation Button -->
+<div class="card" style="text-align:center;">
+    <a class="btn" href="MindMapAI.html#blog">Go back to Blog →</a>
+  </div>
+
+  <script>
+    let streak = 0;
+    let quotes = [
+      "Consistency beats intensity.",
+      "Discipline is choosing what you want most over what you want now.",
+      "Don’t break the chain – keep going!",
+      "Success is built on daily habits.",
+      "One day at a time is how great things are done."
+    ];
+
+    function logDay() {
+      streak++;
+      document.getElementById("streak").textContent = streak + " 🔥";
+      let progress = document.getElementById("progress");
+      let percent = (streak % 7) * (100 / 7); // progress resets every 7 days
+      progress.style.width = percent + "%";
+    }
+
+    function newQuote() {
+      let random = Math.floor(Math.random() * quotes.length);
+      document.getElementById("quote").textContent = "“" + quotes[random] + "”";
+    }
+  </script>
+</body>
+</html>

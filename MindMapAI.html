@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MindMate AI – Your AI Wellness Partner</title>
+  <meta name="description" content="MindMate AI empowers mental wellness with CBT-inspired chatbot, mood tracking, meditations, and an AI coach for healthier habits." />
+  <style>
+    :root{
+      --bg:#0e1014;          /* canvas background */
+      --card:#141823;        /* card surface */
+      --muted:#a7b3c4;       /* muted text */
+      --text:#e9f0ff;        /* primary text */
+      --brand:#6ee7f0;       /* cyan */
+      --brand-2:#9b8cff;     /* purple */
+      --good:#7ef29a;        /* green */
+      --warn:#ffd67e;        /* yellow */
+      --bad:#ff8c8c;         /* red */
+      --accent: linear-gradient(135deg, var(--brand), var(--brand-2));
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    *{box-sizing: border-box}
+    html,body{margin:0;height:100%;scroll-behavior:smooth;background:radial-gradient(1200px 400px at 10% -10%,rgba(155,140,255,.12),transparent 60%),radial-gradient(1000px 500px at 90% 10%,rgba(110,231,240,.12),transparent 60%), var(--bg); color:var(--text); font:400 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial}
+    a{color:var(--brand)}
+    img{max-width:100%;display:block}
+    .container{max-width:1100px;margin-inline:auto;padding:24px}
+    .nav{position:sticky;top:0;z-index:50;background:rgba(14,16,20,.65);backdrop-filter: blur(10px); border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:700}
+    .logo-badge{width:36px;height:36px;border-radius:12px;background:var(--accent);display:grid;place-items:center;box-shadow:var(--shadow)}
+    .logo-badge svg{filter: drop-shadow(0 4px 10px rgba(0,0,0,.25))}
+    .nav a{color:var(--text);text-decoration:none;opacity:.9}
+    .nav-links{display:flex;gap:18px;flex-wrap:wrap}
+    .cta{padding:10px 16px;border-radius:12px;background:var(--accent);color:#091018;font-weight:700;box-shadow:var(--shadow)}
+
+    .cta {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.cta:hover {
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  transform: translateY(-2px);
+}
+
+    .hero{padding:64px 24px}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:center}
+    .hero h1{font-size:clamp(28px, 4vw, 42px);line-height:1.2;margin:.2em 0 .4em}
+    .hero p{color:var(--muted)}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+    .card{background:linear-gradient(180deg, rgba(20,24,35,.9), rgba(20,24,35,.7)); border:1px solid rgba(255,255,255,.07); border-radius:var(--radius); box-shadow:var(--shadow)}
+    .card-pad{padding:22px}
+
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    @media (max-width: 900px){
+      .hero-grid{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr}
+      .grid-2{grid-template-columns:1fr}
+    }
+
+    .section{padding:36px 24px}
+    .section h2{font-size:clamp(22px, 3vw, 34px);margin:.2em 0 .6em}
+    .muted{color:var(--muted)}
+
+    .feature{display:flex;gap:12px}
+    .feature svg{flex:0 0 28px}
+
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+    .tab{padding:8px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);cursor:pointer}
+    .tab[aria-selected="true"]{background:var(--accent);color:#091018;font-weight:700}
+
+    /* Chatbot */
+    .chat{display:flex;flex-direction:column;gap:10px;height:340px;overflow:auto;padding-right:4px}
+    .msg{max-width:78%;padding:10px 14px;border-radius:14px}
+    .user{align-self:flex-end;background:rgba(110,231,240,.18);border:1px solid rgba(110,231,240,.32)}
+    .bot{align-self:flex-start;background:rgba(155,140,255,.15);border:1px solid rgba(155,140,255,.32)}
+    .chatbar{display:flex;gap:8px;margin-top:8px}
+    .input{flex:1;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0c0f15;color:var(--text)}
+    button{border:0;cursor:pointer}
+    .btn{padding:10px 14px;border-radius:12px;background:var(--accent);color:#091018;font-weight:600}
+
+    /* Mood chart */
+    canvas#chart{width:100%;height:220px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px}
+
+    /* FAQ */
+    details{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px}
+    summary{cursor:pointer;font-weight:600}
+
+    /* Pricing */
+    .price{display:flex;align-items:baseline;gap:6px}
+    .price b{font-size:28px}
+
+    /* Footer */
+    footer{padding:28px 24px;border-top:1px solid rgba(255,255,255,.06);color:var(--muted)}
+    .social{display:flex;gap:10px}
+    .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+
+    /* Small banner component for reuse */
+    .promo{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;border-radius:14px;background:linear-gradient(90deg, rgba(110,231,240,.14), rgba(155,140,255,.12));border:1px dashed rgba(255,255,255,.2)}
+
+
+    
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="logo">
+        <div class="logo-badge" aria-hidden>
+          <!-- minimalist brain + heart svg -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21s-7-4.35-7-10A5 5 0 0 1 12 6a5 5 0 0 1 7 5c0 5.65-7 10-7 10Z" stroke="#091018" stroke-width="2"/>
+          </svg>
+        </div>
+        <span>MindMate AI</span>
+      </div>
+      <div class="nav-links" role="tablist" aria-label="Main navigation">
+        <a class="tab" role="tab" aria-selected="true" data-target="#home">Home</a>
+        <a class="tab" role="tab" aria-selected="false" data-target="#product">Product</a>
+        <a class="tab" role="tab" aria-selected="false" data-target="#services">Services</a>
+        <a class="tab" role="tab" aria-selected="false" data-target="#pricing">Pricing</a>
+        <a class="tab" role="tab" aria-selected="false" data-target="#blog">Blog</a>
+        <a class="tab" role="tab" aria-selected="false" data-target="#community">Community</a>
+        <a class="tab" role="tab" aria-selected="false" data-target="#contact">Contact</a>
+        <a class="cta" role="tab" data-target="MindMapAI.html#booking" href="MindMapAI.html#booking">Book a Demo</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO / HOME -->
+  <header id="home" class="hero container">
+    <div class="hero-grid">
+      <div>
+        <div style="width:728px; height:90px; display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg,#6ee7f0,#9b8cff); border-radius:12px; padding:10px; box-shadow:0 4px 12px rgba(0,0,0,0.3); font-family:sans-serif; color:#091018;">
+  
+          <!-- Logo + Name -->
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:50px; height:50px; background:#e9f0ff; border-radius:12px; display:grid; place-items:center;">
+              <!-- Brain-heart SVG -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21s-7-4.35-7-10A5 5 0 0 1 12 6a5 5 0 0 1 7 5c0 5.65-7 10-7 10Z" stroke="#091018" stroke-width="2"/>
+              </svg>
+            </div>
+            <span style="font-weight:700; font-size:18px;">MindMate AI</span>
+          </div>
+        
+          <!-- Message + CTA -->
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+            <span style="font-weight:600; font-size:16px;">Your AI Wellness Partner</span>
+            <a href="#product" class="cta tab" style="padding:6px 14px; background:#091018; color:#6ee7f0; border-radius:8px; text-decoration:none; font-weight:600;">Try MindMate AI</a>
+          </div>
+        </div>
+        <br>
+        <span class="pill">✨ Your AI Wellness Partner</span>
+        <h1>Empower your mental wellness with CBT‑inspired tools, mindful routines, and a friendly AI coach.</h1>
+        <p class="muted">MindMate AI blends a compassionate chatbot, daily mood tracking, and bite‑size meditations to help you build habits that stick. Private. Secure. Always there.</p>
+        <div style="display:flex;gap:12px;margin-top:14px">
+          <a href="#product" class="cta tab">Explore Product</a>
+          <a href="#pricing" class="cta tab" role="button">See Pricing</a>
+        </div>
+        <div class="promo" style="margin-top:14px">
+          <div>
+            <b>New:</b> Guided Breathing + Streaks
+            <div class="muted">Earn badges for 7‑day mindfulness streaks.</div>
+          </div>
+          <a href="#community" class="btn tab" style="white-space:nowrap">Join Community</a>
+        </div>
+      </div>
+      
+      <div class="card card-pad">
+        <h3 style="margin-top:0">Today at a glance</h3>
+        <div class="grid-3">
+          <div class="feature">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="currentColor" opacity=".6"/><path d="M8 13l2 2 6-6" stroke="currentColor" stroke-width="2"/></svg>
+            <div>
+              <b>Check‑in</b>
+              <div class="muted">How are you feeling?</div>
+            </div>
+          </div>
+          <div class="feature">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12h16" stroke="currentColor"/><path d="M12 4v16" stroke="currentColor"/></svg>
+            <div>
+              <b>Breathing</b>
+              <div class="muted">Box 4‑4‑4‑4</div>
+            </div>
+          </div>
+          <div class="feature">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l7 4v10l-7 4-7-4V7l7-4Z" stroke="currentColor"/></svg>
+            <div>
+              <b>Coach Tip</b>
+              <div class="muted">Reframe one thought</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:12px">
+          <canvas id="chart" aria-label="Weekly mood chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PRODUCT -->
+  <section id="product" class="section container">
+    <h2>Product</h2>
+    <p class="muted">Explore the core features built around evidence‑informed CBT principles and everyday habit support.</p>
+
+    <div class="grid-2">
+      <!-- Chatbot card -->
+      <div class="card card-pad">
+        <h3>CBT‑Inspired Chatbot</h3>
+        <div class="chat" id="chat" aria-live="polite"></div>
+        <div class="chatbar">
+          <input id="chatInput" class="input" placeholder="Type how you feel… (e.g., 'I feel anxious')" aria-label="Chat input" />
+          <button class="btn" id="sendBtn">Send</button>
+        </div>
+        <small class="muted">Note: Demo only. Educational, not medical advice.</small>
+      </div>
+
+      <!-- Mood tracking card -->
+      <div class="card card-pad">
+        <h3>Daily Mood Tracking</h3>
+        <p class="muted">Log a mood once per day. Your entries stay in your browser (local‑only).
+        </p>
+        <form id="moodForm" class="grid-2" style="align-items:end">
+          <label>
+            Mood (1‑5)
+            <input class="input" id="moodValue" type="number" min="1" max="5" value="3"/>
+          </label>
+          <button class="btn" type="submit">Save Mood</button>
+        </form>
+        <div id="moodStatus" class="muted" style="margin-top:8px"></div>
+        <ul id="moodList" style="margin:10px 0 0;padding-left:18px"></ul>
+      </div>
+
+      <!-- User benefits -->
+      <div class="card card-pad">
+        <h3>User Benefits</h3>
+        <div class="grid-3">
+          <div>
+            <b>Clarity</b>
+            <div class="muted">Identify thought patterns quickly.</div>
+          </div>
+          <div>
+            <b>Consistency</b>
+            <div class="muted">Lightweight daily routines.</div>
+          </div>
+          <div>
+            <b>Confidence</b>
+            <div class="muted">Practice reframes that stick.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking / logistics -->
+      <div id="booking" class="card card-pad">
+        <h3>Book a Demo</h3>
+        <form id="bookForm" class="grid-2">
+          <label>
+            Name
+            <input required class="input" name="name"/>
+          </label>
+          <label>
+            Email
+            <input required type="email" class="input" name="email"/>
+          </label>
+          <label>
+            Preferred Date
+            <input required type="date" class="input" name="date"/>
+          </label>
+          <label>
+            Time
+            <input required type="time" class="input" name="time"/>
+          </label>
+          <label style="grid-column:1/-1">
+            Notes
+            <textarea class="input" name="notes" rows="3" placeholder="Anything you'd like us to focus on?" ></textarea>
+          </label>
+          <button class="btn" type="submit">Request Booking</button>
+        </form>
+        <div id="bookStatus" class="muted" style="margin-top:8px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="section container">
+    <h2>Services</h2>
+    <div class="grid-3">
+      <div class="card card-pad">
+        <h3>Daily Meditations</h3>
+        <p class="muted">5‑minute audio prompts to reset your day. Pick a theme and breathe with a gentle timer.</p>
+        <button class="btn" id="startBreath">Start 1‑Minute Box Breathing</button>
+        <div id="breathStatus" class="muted" style="margin-top:8px"></div>
+      </div>
+      <div class="card card-pad">
+        <h3>AI Coach</h3>
+        <p class="muted">Step‑by‑step guidance on how to make the most of MindMate AI. Think of it like a personal assistant for your wellness routine.</p>
+        <ol>
+          <li>Set a daily check‑in time.</li>
+          <li>Pick one habit: breathe, reflect, or reframe.</li>
+          <li>Review your mood trend each Sunday.</li>
+        </ol>
+      </div>
+      <div class="card card-pad">
+        <h3>Self‑Care Routines</h3>
+        <p class="muted">Curated micro‑routines: 2‑minute reset, 5‑minute tidy, 10‑minute reflect. Toggle reminders below.</p>
+        <button class="tab" id="toggleReminder">Enable Reminder</button>
+        <div id="reminderStatus" class="muted" style="margin-top:6px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING / KEY FEATURES -->
+<section id="pricing" class="section container">
+  <h2>Pricing & Key Features</h2>
+  <div class="grid-3">
+    <div class="card card-pad">
+      <h3>Starter</h3>
+      <div class="price"><b>R0</b><span class="muted">/mo</span></div>
+      <ul>
+        <li>Chatbot (daily limit)</li>
+        <li>Mood tracking</li>
+        <li>Breathing timer</li>
+      </ul>
+      <a class="btn" href="checkout-starter.html">Get Started</a>
+    </div>
+
+    <div class="card card-pad">
+      <h3>Plus</h3>
+      <div class="price"><b>R59</b><span class="muted">/mo</span></div>
+      <ul>
+        <li>Unlimited chat</li>
+        <li>Custom routines</li>
+        <li>Weekly insights</li>
+      </ul>
+      <a class="btn" href="checkout-plus.html">Try Plus</a>
+    </div>
+
+    <div class="card card-pad">
+      <h3>Pro</h3>
+      <div class="price"><b>R99</b><span class="muted">/mo</span></div>
+      <ul>
+        <li>Priority support</li>
+        <li>Advanced analytics</li>
+        <li>Community badges</li>
+      </ul>
+      <a class="btn" href="checkout-pro.html">Go Pro</a>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-top:16px">
+    <div class="feature">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+        xmlns="http://www.w3.org/2000/svg"><path d="M12 3l7 4v10l-7 4-7-4V7l7-4Z" stroke="currentColor"/></svg>
+      <div>
+        <b>Logo / Branding</b>
+        <div class="muted">Minimal mark + calming palette.</div>
+      </div>
+    </div>
+    <div class="feature">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+        xmlns="http://www.w3.org/2000/svg"><path d="M4 12h16M12 4v16" stroke="currentColor"/></svg>
+      <div>
+        <b>Buttons & Links</b>
+        <div class="muted">Clear primary calls to action.</div>
+      </div>
+    </div>
+    <div class="feature">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+        xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor"/><path d="M12 7v5l3 3" stroke="currentColor"/></svg>
+      <div>
+        <b>Logistics</b>
+        <div class="muted">Simple booking + reminders.</div>
+      </div>
+    </div>
+    <div class="feature">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+        xmlns="http://www.w3.org/2000/svg"><path d="M9 12l2 2 4-5" stroke="currentColor"/></svg>
+      <div>
+        <b>Key Benefits</b>
+        <div class="muted">Clarity, consistency, confidence.</div>
+      </div>
+    </div>
+    <div class="feature">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+        xmlns="http://www.w3.org/2000/svg"><path d="M8 12h8M8 16h6M8 8h10" stroke="currentColor"/></svg>
+      <div>
+        <b>Social Media</b>
+        <div class="muted">Links in footer (Twitter, Instagram).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- BLOG (Bonus Page 1) -->
+  <section id="blog" class="section container">
+    <h2>Blog</h2>
+    <p class="muted">Fresh reads on mental wellness, habits, and tech.</p>
+    <div class="grid-3">
+      <article class="card card-pad">
+        <h3>Reframing 101</h3>
+        <p class="muted">Turn unhelpful thoughts into balanced perspectives with this simple 3‑step check.</p>
+        <a href="reframe_blog.html">Read more</a>
+      </article>
+      <article class="card card-pad">
+        <h3>5‑Minute Meditations</h3>
+        <p class="muted">Short, effective resets you can do between classes or meetings.</p>
+        <a href="meditation_blog.html">Read more</a>
+      </article>
+      <article class="card card-pad">
+        <h3>Streaks & Motivation</h3>
+        <p class="muted">Why tiny wins matter more than huge pushes once a month.</p>
+        <a href="SnM_blog.html">Read more</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- COMMUNITY (Bonus Page 2) -->
+  <section id="community" class="section container">
+    <h2>Community</h2>
+    <p class="muted">Peer encouragement and monthly challenges. Be kind, be supportive.</p>
+    <div class="grid-2">
+      <div class="card card-pad">
+        <h3>Current Challenge: 7‑Day Calm</h3>
+        <p class="muted">Log a mood + 1 minute of breathing for seven days. Earn the Calm Leaf badge.</p>
+        <button class="btn" id="joinChallenge">Join Challenge</button>
+        <div id="challengeStatus" class="muted" style="margin-top:8px"></div>
+      </div>
+      <div class="card card-pad">
+        <h3>House Rules</h3>
+        <ul>
+          <li>Respect and support others.</li>
+          <li>No medical claims; share experiences only.</li>
+          <li>Report harmful content to support.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section container">
+    <h2>Contact & FAQs</h2>
+    <div class="grid-2">
+      <div class="card card-pad">
+        <h3>Contact</h3>
+        <p class="muted">Support email: <a href="mailto:support@mindmate.ai">support@mindmate.ai</a></p>
+        <p class="muted">Cape Town • Remote‑friendly</p>
+        <div class="social" aria-label="Social links">
+          <a href="https://x.com/mentalhealth" aria-label="Twitter" title="Twitter">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 5.8c-.7.3-1.4.5-2.1.6.8-.5 1.3-1.2 1.6-2-.7.5-1.6.8-2.5 1-1.5-1.6-4.1-1.4-5.5.3-1 1.1-1.3 2.7-.8 4.1-3.3-.2-6.2-1.7-8.2-4.1-1.1 2-.6 4.6 1.3 5.9-.6 0-1.2-.2-1.8-.5 0 2.1 1.4 3.9 3.4 4.3-.5.1-1 .2-1.5.1.4 1.8 2 3.1 3.9 3.1-1.7 1.3-3.8 2-5.9 2 0 .1 0 .2 0 .2 2.1 1.3 4.5 2 7 2 8.4 0 13-7.2 12.7-13.7.8-.6 1.4-1.3 1.9-2.1Z" fill="currentColor"/></svg>
+          </a>
+          <a href="https://www.instagram.com/the.holistic.psychologist/" aria-label="Instagram" title="Instagram">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor"/><circle cx="12" cy="12" r="4" stroke="currentColor"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="card card-pad">
+        <h3>FAQs</h3>
+        <details>
+          <summary>Is my data private?</summary>
+          <p class="muted">This demo stores your mood locally in your browser only. In production, we would use secure, encrypted storage and strict privacy controls.</p>
+        </details>
+        <details>
+          <summary>Is this medical advice?</summary>
+          <p class="muted">No. MindMate AI is educational and supportive only and is not a substitute for professional care.</p>
+        </details>
+        <details>
+          <summary>How do I cancel?</summary>
+          <p class="muted">You can cancel any time from your account page. Your data export will be available on request.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer class="container">
+    <div class="promo" style="margin-bottom:14px">
+      <div>
+        <b>Invite a friend</b>
+        <div class="muted">Earn a bonus Calm Leaf badge when they log their first week.</div>
+      </div>
+      <a id="copyInvite" class="btn" href="#">Copy Invite Link</a>
+    </div>
+    <small>© <span id="year"></span> MindMate AI. All rights reserved.</small>
+  </footer>
+
+  <script>
+    // --------- Robust SPA-like navigation with safe history updates ---------
+    const TAB_ELEMENTS = Array.from(document.querySelectorAll('.tab'));
+    const SECTION_IDS = ['#home','#product','#services','#pricing','#blog','#community','#contact'];
+    // Collect only existing section elements
+    const SECTIONS = SECTION_IDS.map(id => document.querySelector(id)).filter(Boolean);
+
+    function isSafeToUpdateHistory(){
+      try{
+        // Don't attempt replaceState when the document URL is about:srcdoc or similar (sandboxed frames)
+        if(!location || typeof location.href !== 'string') return false;
+        const href = location.href;
+        if(href.startsWith('about:') || href.startsWith('blob:') || href.startsWith('data:')) return false;
+        return true;
+      }catch(e){
+        return false;
+      }
+    }
+
+    function safeReplaceState(url){
+      if(!isSafeToUpdateHistory()) return; // skip in sandboxed environments
+      try{
+        history.replaceState(null, '', url);
+      }catch(err){
+        // Some environments (like about:srcdoc) disallow creating a new history state with a URL.
+        // Fail silently but log for debugging.
+        console.warn('replaceState blocked or failed:', err);
+      }
+    }
+
+    function showSection(id){
+      const targetId = id.replace('#','');
+      SECTIONS.forEach(s => {
+        if(!s) return;
+        s.style.display = (s.id === targetId) ? 'block' : 'none';
+      });
+      TAB_ELEMENTS.forEach(t => {
+        try{ t.setAttribute('aria-selected', t.dataset.target === id ? 'true' : 'false'); }catch(e){}
+      });
+
+      // Update the URL hash safely when possible, otherwise skip.
+      safeReplaceState(id);
+      // scroll to top of page for clarity
+      try{ window.scrollTo({top:0, behavior:'smooth'}); }catch(e){ window.scrollTo(0,0); }
+    }
+
+    // Handle clicks on tabs
+    TAB_ELEMENTS.forEach(t => t.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const target = t.dataset.target || t.getAttribute('href') || '#home';
+      showSection(target);
+    }));
+
+    // Determine initial section from hash (if present and matches an existing section)
+    (function initNavigation(){
+      const hash = (location && location.hash) ? location.hash : '';
+      if(hash && SECTION_IDS.includes(hash)){
+        // Only show the requested section if it exists in the DOM
+        const el = document.querySelector(hash);
+        if(el) return showSection(hash);
+      }
+      // default
+      showSection('#home');
+    })();
+
+    // ---------- Chatbot (demo) ----------
+    const chat = document.getElementById('chat');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    const BOT_TIPS = [
+      {k:/anxious|anxiety|worried/i, r:"Try a 1‑minute box breath: inhale 4 • hold 4 • exhale 4 • hold 4. What thought feels loud right now?"},
+      {k:/sad|down|low/i, r:"I'm sorry it's heavy. Name one small kindness you can offer yourself today."},
+      {k:/angry|mad|frustrated/i, r:"Totally valid. What need feels unmet? Let's brainstorm one ask you could make."},
+      {k:/stress|stressed|overwhelmed/i, r:"Let’s break it down. What’s one tiny next step that would move you forward?"},
+    ];
+
+    function addMsg(text, who='bot'){
+      if(!chat) return;
+      const div = document.createElement('div');
+      div.className = `msg ${who}`;
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    if(chat) addMsg("Hi! I'm your CBT‑inspired companion. How are you feeling today?");
+
+    function botReply(user){
+      let tip = BOT_TIPS.find(t => t.k.test(user));
+      if(!tip){
+        tip = {r:"Thanks for sharing. Try writing the thought, then ask: 'What evidence supports it? What else could be true?'"};
+      }
+      addMsg(tip.r,'bot');
+    }
+
+    function send(){
+      if(!chatInput) return;
+      const v = chatInput.value.trim();
+      if(!v) return;
+      addMsg(v,'user');
+      chatInput.value = '';
+      setTimeout(()=>botReply(v), 300);
+    }
+
+    if(sendBtn) sendBtn.addEventListener('click', send);
+    if(chatInput) chatInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); send(); } });
+
+    // ---------- Mood tracking (localStorage) ----------
+    const chart = document.getElementById('chart');
+    const ctx = chart ? chart.getContext && chart.getContext('2d') : null;
+
+    function getMoods(){
+      try { return JSON.parse(localStorage.getItem('moods')||'[]'); } catch { return []; }
+    }
+    function setMoods(arr){ localStorage.setItem('moods', JSON.stringify(arr)); }
+
+    function drawChart(){
+      if(!chart || !ctx) return;
+      const moods = getMoods().slice(-7); // last 7
+      const w = chart.width = Math.max(1, chart.clientWidth) * devicePixelRatio;
+      const h = chart.height = Math.max(1, chart.clientHeight) * devicePixelRatio;
+      ctx.clearRect(0,0,w,h);
+      const pad = 24 * devicePixelRatio;
+      const step = (w - pad*2) / Math.max(1, moods.length-1);
+      const yFor = v => h - pad - ( (v-1)/4 ) * (h - pad*2);
+      // axes
+      ctx.globalAlpha = .5; ctx.lineWidth = 1; ctx.strokeStyle = '#9fb3cc';
+      ctx.beginPath();
+      ctx.moveTo(pad, pad); ctx.lineTo(pad, h-pad); ctx.lineTo(w-pad, h-pad); ctx.stroke();
+      // line
+      if(moods.length){
+        ctx.globalAlpha = 1; ctx.lineWidth = 3; ctx.strokeStyle = '#9b8cff';
+        ctx.beginPath();
+        moods.forEach((m,i)=>{
+          const x = pad + i*step; const y = yFor(m.value);
+          i? ctx.lineTo(x,y) : ctx.moveTo(x,y);
+        });
+        ctx.stroke();
+        // points
+        ctx.fillStyle = '#6ee7f0';
+        moods.forEach((m,i)=>{
+          const x = pad + i*step; const y = yFor(m.value);
+          ctx.beginPath(); ctx.arc(x,y,5*devicePixelRatio,0,Math.PI*2); ctx.fill();
+        });
+      }
+    }
+
+    window.addEventListener('resize', drawChart);
+
+    const moodForm = document.getElementById('moodForm');
+    const moodValue = document.getElementById('moodValue');
+    const moodList = document.getElementById('moodList');
+    const moodStatus = document.getElementById('moodStatus');
+
+    function renderMoodList(){
+      if(!moodList) return;
+      const moods = getMoods();
+      moodList.innerHTML = moods.slice(-7).map(m=>`<li>${new Date(m.ts).toLocaleDateString()} – mood ${m.value}/5</li>`).join('');
+    }
+
+    if(moodForm) moodForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const v = Math.max(1, Math.min(5, Number(moodValue.value||3)));
+      const moods = getMoods();
+      moods.push({value:v, ts: Date.now()});
+      setMoods(moods);
+      if(moodStatus) moodStatus.textContent = 'Saved ✔';
+      renderMoodList();
+      drawChart();
+    });
+
+    renderMoodList();
+    // wait a tick for layout before drawing chart (helps in some sandboxed frames)
+    requestAnimationFrame(drawChart);
+
+    // ---------- Breathing timer ----------
+    const startBreath = document.getElementById('startBreath');
+    const breathStatus = document.getElementById('breathStatus');
+    let breathTimer; let phase = 0; let secs = 4;
+    const phases = ['Inhale','Hold','Exhale','Hold'];
+
+    function stopBreath(){ clearInterval(breathTimer); breathTimer = null; phase = 0; secs = 4; }
+
+    if(startBreath) startBreath.addEventListener('click',()=>{
+      if(breathTimer){ stopBreath(); if(breathStatus) breathStatus.textContent = 'Stopped'; return; }
+      if(breathStatus) breathStatus.textContent = `${phases[phase]} • ${secs}s`;
+      breathTimer = setInterval(()=>{
+        secs--; if(secs<=0){ phase=(phase+1)%4; secs=4; }
+        if(breathStatus) breathStatus.textContent = `${phases[phase]} • ${secs}s`;
+      },1000);
+      setTimeout(()=>{ stopBreath(); if(breathStatus) breathStatus.textContent = 'Nice work. Feel any shift?'; }, 60*1000);
+    });
+
+    // ---------- Reminders (Notification API) ----------
+    const toggleReminder = document.getElementById('toggleReminder');
+    const reminderStatus = document.getElementById('reminderStatus');
+    let reminderOn = false; let reminderHandle;
+
+    if(toggleReminder) toggleReminder.addEventListener('click', async ()=>{
+      if(!reminderOn){
+        if('Notification' in window){
+          const perm = await Notification.requestPermission();
+          if(perm !== 'granted'){ if(reminderStatus) reminderStatus.textContent = 'Notifications blocked.'; return; }
+        }
+        reminderOn = true; toggleReminder.textContent = 'Disable Reminder';
+        if(reminderStatus) reminderStatus.textContent = 'Hourly gentle nudge enabled (demo).';
+        reminderHandle = setInterval(()=>{
+          if('Notification' in window && Notification.permission==='granted'){
+            new Notification('MindMate AI', { body:'Take 3 mindful breaths 💙' });
+          }
+        }, 3600_000/60); // demo: every minute instead of hour
+      } else {
+        reminderOn = false; toggleReminder.textContent = 'Enable Reminder'; if(reminderStatus) reminderStatus.textContent = 'Reminder disabled.'; clearInterval(reminderHandle);
+      }
+    });
+
+    // ---------- Community challenge ----------
+    const joinBtn = document.getElementById('joinChallenge');
+    const challengeStatus = document.getElementById('challengeStatus');
+    if(joinBtn) joinBtn.addEventListener('click',()=>{
+      if(challengeStatus) challengeStatus.textContent = 'Joined ✔ Your streak starts today!';
+      joinBtn.disabled = true; joinBtn.textContent = 'Joined';
+    });
+
+    // ---------- Booking form (no backend; demo) ----------
+    const bookForm = document.getElementById('bookForm');
+    const bookStatus = document.getElementById('bookStatus');
+    if(bookForm) bookForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(bookForm).entries());
+      if(bookStatus) bookStatus.textContent = `Thanks ${data.name}! Check your inbox at ${data.email} for a confirmation (demo).`;
+      bookForm.reset();
+    });
+
+    // Year
+    const yearEl = document.getElementById('year');
+    if(yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // ----------------- Lightweight self-tests (logs) -----------------
+    function runSelfTests(){
+      console.group('MindMate AI — Self Tests');
+      const requiredIds = ['home','product','services','pricing','blog','community','contact'];
+      let ok = true;
+      requiredIds.forEach(id => {
+        const el = document.getElementById(id);
+        if(!el){ console.error('Missing section:', id); ok = false; } else { console.log('Section present:', id); }
+      });
+      if(!document.getElementById('chat')){ console.warn('Chat element missing (chat demo won\'t run)'); }
+      if(!document.getElementById('moodForm')){ console.warn('Mood form missing'); }
+      console.log('replaceState available?', typeof history.replaceState === 'function');
+      console.log('Document href:', location.href);
+      console.log('Self test', ok ? 'PASSED' : 'FAILED');
+      console.groupEnd();
+    }
+
+    // run self-tests after a short delay so layout and DOM settle in sandboxed environments
+    setTimeout(runSelfTests, 250);
+
+    document.addEventListener("DOMContentLoaded", () => {
+  const copyBtn = document.getElementById("copyInvite");
+
+  if (copyBtn) {
+    copyBtn.addEventListener("click", async (e) => {
+      e.preventDefault(); // stop the link from jumping to top of page
+      try {
+        const inviteLink = window.location.href; // copies current page URL
+        await navigator.clipboard.writeText(inviteLink);
+        alert("✅ Invite link copied to clipboard!");
+      } catch (err) {
+        console.error("Copy failed:", err);
+        alert("❌ Could not copy link, please try again.");
+      }
+    });
+  }
+});
+
+  </script>
+</body>
+</html>

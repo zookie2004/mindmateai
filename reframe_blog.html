@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reframing 101</title>
+  <style>
+    :root {
+      --bg:#0e1014;
+      --card:#141823;
+      --muted:#a7b3c4;
+      --text:#e9f0ff;
+      --brand:#6ee7f0;
+      --brand-2:#9b8cff;
+      --good:#7ef29a;
+      --warn:#ffd67e;
+      --bad:#ff8c8c;
+      --accent: linear-gradient(135deg, var(--brand), var(--brand-2));
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--accent);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 0 0 var(--radius) var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    h1{
+      color: #fff;
+    }
+
+     h2 {
+      color: var(--brand);
+    }
+
+    .card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 8px 0;
+    }
+
+    .exercise {
+      margin-top: 15px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      border-radius: var(--radius);
+      border: none;
+      padding: 10px;
+      background: #1d2230;
+      color: var(--text);
+      resize: none;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: var(--radius);
+      margin-top: 15px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .reflection {
+      background: #1d2230;
+      padding: 15px;
+      border-radius: var(--radius);
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Reframing 101</h1>
+    <p>Shift your perspective. Change your story. Transform your mindset.</p>
+  </header>
+
+  <div class="container">
+    <!-- Introduction -->
+    <div class="card">
+      <h2>What is Reframing?</h2>
+      <p>
+Reframing is a special technique that enables you to rethink and restructure the mechanisms of perception, 
+thinking, and behaviour in order to change someone else's or your own point of view or belief about something. 
+To put it simply, using this approach will enable you to view things from a different angle, see the bright side of 
+things even in the most dire circumstances, and make a competent and informed decision. <br>
+
+At the same time, reframing does not imply achieving a result by deception, cunning, or pretence. 
+The method must only be applied within the confines of truth, reasonable human conceptions of something, and the real 
+picture of the world in order for the effect to be the longest-lasting and fruitful.<br>
+
+The term "reframing" comes from the English word "frame". We view our entire life experience through a certain "framework", 
+in which some events, ideas, thoughts come to the fore and the rest stay in the background. By literally moving your 
+experience into a different frame and reconsidering it, you can see what is hidden beneath the surface and go beyond 
+conventional thinking and our artificial limitations.<br>
+
+So, every individual has a unique perspective on the same event. For example, two employees were sent to classes to 
+hone their skills and cultivate leadership thinking as part of corporate training. While one of them views this as a 
+great chance to advance professionally and further their career, the other will think it's a pointless activity and a 
+waste of time. Depending on how the employees feel about taking classes, the final result will change. Using reframing, 
+you can convince an employee who does not want to take a course that it will be interesting and helpful for their career. 
+After all, Bernard Shaw, an Irish playwright, once said, 
+"Both optimists and pessimists contribute to society. The optimist invents the aeroplane, the pessimist the parachute."
+      </p>
+    </div>
+
+    <!-- Steps -->
+    <div class="card">
+      <h2>Steps to Reframe a Thought</h2>
+      <ul>
+        <li>🧠 <strong>Notice</strong> the negative or unhelpful thought.</li>
+        <li>🔍 <strong>Pause</strong> and ask: “Is this thought 100% true?”</li>
+        <li>💡 <strong>Shift</strong> by looking for an alternative perspective.</li>
+        <li>🌱 <strong>Replace</strong> it with a balanced, constructive thought.</li>
+      </ul>
+    </div>
+
+    <!-- Examples -->
+    <div class="card">
+      <h2>Examples</h2>
+      <p><strong>Negative Thought:</strong> “I always fail at everything.”</p>
+      <p><strong>Reframed Thought:</strong> “I sometimes struggle, but I also learn and improve each time.”</p>
+      <hr>
+      <p><strong>Negative Thought:</strong> “They didn’t reply, they must not like me.”</p>
+      <p><strong>Reframed Thought:</strong> “They might just be busy — it doesn’t mean they dislike me.”</p>
+    </div>
+
+    <!-- Interactive Exercise -->
+    <div class="card">
+      <h2>Try it Yourself</h2>
+      <p>Write down a negative thought and reframe it into something more positive:</p>
+      <div class="exercise">
+        <textarea id="negative" placeholder="Write your negative thought here..."></textarea>
+        <textarea id="positive" placeholder="Now reframe it into something constructive..."></textarea>
+        <button class="btn" onclick="saveReflection()">Save Reflection</button>
+        <div class="reflection" id="reflectionBox"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Button -->
+<div class="card" style="text-align:center;">
+  <a class="btn" href="MindMapAI.html#blog">Go back to Blog →</a>
+</div>
+
+
+  <script>
+    function saveReflection() {
+      let neg = document.getElementById("negative").value.trim();
+      let pos = document.getElementById("positive").value.trim();
+      if (neg && pos) {
+        document.getElementById("reflectionBox").innerHTML = 
+          "<p><strong>Your Thought:</strong> " + neg + "</p>" +
+          "<p><strong>Your Reframe:</strong> " + pos + "</p>";
+        document.getElementById("reflectionBox").style.display = "block";
+      } else {
+        alert("Please fill in both boxes before saving.");
+      }
+    }
+  </script>
+</body>
+</html>
+

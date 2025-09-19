@@ -1,0 +1,153 @@
+/* =============================
+   Checkout Pages Theme Styles
+   Matches Website Global Style
+   ============================= */
+
+/* Variables */
+:root {
+  --bg:#0e1014;
+  --card:#141823;
+  --muted:#a7b3c4;
+  --text:#e9f0ff;
+  --brand:#6ee7f0;
+  --brand-2:#9b8cff;
+  --good:#7ef29a;
+  --warn:#ffd67e;
+  --bad:#ff8c8c;
+  --accent: linear-gradient(135deg, var(--brand), var(--brand-2));
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: radial-gradient(1200px 400px at 10% -10%,rgba(155,140,255,.12),transparent 60%),
+              radial-gradient(1000px 500px at 90% 10%,rgba(110,231,240,.12),transparent 60%),
+              var(--bg);
+  color: var(--text);
+  font: 400 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+}
+
+/* Container */
+.checkout.container,
+.success.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 32px;
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(20,24,35,.9), rgba(20,24,35,.7));
+  border: 1px solid rgba(255,255,255,.07);
+  box-shadow: var(--shadow);
+}
+
+/* Headings */
+.checkout h2 {
+  font-size: clamp(24px, 3vw, 32px);
+  margin: 0 0 12px;
+}
+
+.checkout p {
+  color: var(--muted);
+  margin: 0 0 20px;
+}
+
+/* Features List */
+.checkout ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.checkout ul li {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+/* Form */
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.checkout-form label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.checkout-form input {
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: #0c0f15;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 14px 22px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #091018;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+/* Success Page */
+.success h2 {
+  color: var(--good);
+}
+
+.success p {
+  margin-bottom: 20px;
+  color: var(--muted);
+}
+
+ul {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+ul li {
+  position: relative;
+  padding-left: 26px;
+  margin-bottom: 10px;
+}
+
+ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--brand);  /* uses your cyan brand color */
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .checkout.container,
+  .success.container {
+    margin: 20px;
+    padding: 20px;
+  }
+  .btn {
+    width: 100%;
+  }
+}
